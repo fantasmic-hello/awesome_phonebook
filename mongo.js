@@ -22,7 +22,7 @@ mongoose.connect(url)
 // const note = new Note({
 //     content: 'scary stuff',
 //     important: true,
-// }) 
+// })
 
 // note.save().then(result => {
 //     console.log('note saved!')
@@ -30,36 +30,36 @@ mongoose.connect(url)
 // })
 
 const personSchema = new mongoose.Schema({
-    name: String,
-    number: String
+  name: String,
+  number: String
 })
 
-personSchema.set("toJSON", {
+personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString();
-    delete returnedObject._id;
-    delete returnedObject.__v;
+    returnedObject.id = returnedObject._id.toString()
+    delete returnedObject._id
+    delete returnedObject.__v
   },
-});
+})
 
 const Person = mongoose.model('Person', personSchema)
 
 if (process.argv.length > 3){
-    console.log("Adding person")
-    const person = new Person({
-        name: process.argv[2],
-        number: process.argv[3]
-    })
-    person.save().then(result => {
-        console.log('person saved')
-        mongoose.connection.close()
-    })
+  console.log('Adding person')
+  const person = new Person({
+    name: process.argv[2],
+    number: process.argv[3]
+  })
+  person.save().then(() => {
+    console.log('person saved')
+    mongoose.connection.close()
+  })
 } else {
-    console.log("Retrieving all persons")
-    Person.find({}).then(result => {
-        result.forEach(person => {
-            console.log(person)
-        })
-        mongoose.connection.close()
+  console.log('Retrieving all persons')
+  Person.find({}).then(result => {
+    result.forEach(person => {
+      console.log(person)
     })
+    mongoose.connection.close()
+  })
 }
